@@ -416,15 +416,22 @@ def incremental_irr_tool():
                 n_ui = ui.number('Shared Life (Years)', value=10).classes('w-full')
                 ui.button('Determine Incremental IRR', icon='trending_up', on_click=lambda: calculate()).classes('w-full')
 
-            with ui.column().classes('flex-1 items-center justify-center p-8 bg-blue-50/30 rounded border-2 border-dashed border-blue-100'):
+            with ui.column().classes('flex-1 items-center justify-center p-8 bg-white rounded shadow-md border border-gray-200'):
                 res_label = ui.label('Enter project details to calculate').classes('text-xl font-bold text-center w-full text-blue-800')
-                ui.markdown(r'''
-                ### Methodology
-                1. Find $\Delta$ Cost ($C_B - C_A$)
-                2. Find $\Delta$ Annual Benefit ($B_B - B_A$)
-                3. Calculate IRR of the incremental cash flow.
-                4. If $IRR_{\Delta} > MARR$, choose the more expensive Project B.
-                ''').classes('text-gray-600 q-mt-md')
+                
+                chart = ui.echart({
+                    'title': {'text': 'Incremental Cash Flow (B - A)', 'left': 'center'},
+                    'tooltip': {'trigger': 'axis'},
+                    'xAxis': {'type': 'category', 'data': [], 'name': 'Year'},
+                    'yAxis': {'type': 'value', 'name': 'Cash Flow ($)'},
+                    'series': [{
+                        'data': [],
+                        'type': 'bar',
+                        'itemStyle': {
+                            'color': '#3b82f6' 
+                        }
+                    }]
+                }).classes('w-full h-80')
 
         def calculate():
             dc0 = c_b.value - c_a.value
@@ -443,6 +450,23 @@ def incremental_irr_tool():
                 f = ((1+mid)**n - 1) / (mid * (1+mid)**n)
                 if -dc0 + da*f > 0: low = mid
                 else: high = mid
+            
+            res_label.text = f'Incremental IRR (ΔB/ΔC): {low*100:.2f}%'
+            
+            # Update Chart
+            years = [str(i) for i in range(n + 1)]
+            # Cash flows: Year 0 is -dc0 (cost difference), Year 1-N is +da (benefit difference)
+            flows = [-dc0] + [da] * n
+            
+            # Color coding: Red for negative, Green for positive
+            colors = ['#ef4444' if x < 0 else '#22c55e' for x in flows]
+            
+            chart.options['title']['text'] = f'Incremental Cash Flow (IRR: {low*100:.2f}%)'
+            chart.options['xAxis']['data'] = years
+            chart.options['series'][0]['data'] = [
+                {'value': x, 'itemStyle': {'color': c}} for x, c in zip(flows, colors)
+            ]
+            chart.update()
             
             irr = low * 100
             res_label.text = f'Incremental IRR (ΔB/ΔC): {irr:.2f}%'
