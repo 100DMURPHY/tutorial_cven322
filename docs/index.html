@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>CVEN322 Documentation</title>
@@ -7,7 +8,33 @@
   <meta name="description" content="Civil Engineering Systems Teaching Platform Documentation">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <style>
+    :root {
+      --theme-color: #1e40af;
+      /* Engineering Blue */
+    }
+
+    .sidebar {
+      background-color: #f8fafc;
+      border-right: 1px solid #e2e8f0;
+    }
+
+    .sidebar-nav li.active>a {
+      border-right: 3px solid var(--theme-color);
+      font-weight: bold;
+    }
+
+    .markdown-section {
+      max-width: 900px;
+    }
+
+    /* Ensure TOC items are visible */
+    .sidebar-nav ul li ul {
+      display: block !important;
+    }
+  </style>
 </head>
+
 <body>
   <div id="app"></div>
   <script>
@@ -19,10 +46,13 @@
       auto2top: true,
       alias: {
         '/.*/_sidebar.md': '/_sidebar.md'
-      }
+      },
+      // Ensure the sidebar TOC is always expanded
+      maxLevel: 4,
     }
   </script>
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
 </body>
+
 </html>
