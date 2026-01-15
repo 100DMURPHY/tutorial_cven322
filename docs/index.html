@@ -14,7 +14,8 @@
   <style>
     :root {
       /* Custom Brand Colors */
-      --theme-color: #3b82f6; /* Modern Blue */
+      --theme-color: #3b82f6;
+      /* Modern Blue */
       --base-font-size: 16px;
       --sidebar-width: 280px;
     }
@@ -25,7 +26,7 @@
       background: rgba(59, 130, 246, 0.1);
       font-weight: 600;
     }
-    
+
     /* Content Width */
     .markdown-section {
       max-width: 960px;
@@ -39,12 +40,12 @@
     window.$docsify = {
       name: 'CVEN322 Platform',
       repo: '100DMURPHY/tutorial_cven322',
-      
+
       // Sidebar & Navigation
       loadSidebar: true,
       subMaxLevel: 3,
       auto2top: true,
-      
+
       // Themeable Configuration
       themeable: {
         readyTransition: true,
@@ -58,17 +59,13 @@
         placeholder: 'Type to search...',
         noData: 'No Results!',
         depth: 6
-      },
-      
-      alias: {
-        '/.*/_sidebar.md': '/_sidebar.md'
       }
     }
   </script>
-  
+
   <!-- Core Docsify -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
-  
+
   <!-- Themeable Plugin -->
   <script src="//cdn.jsdelivr.net/npm/docsify-themeable@0/dist/js/docsify-themeable.min.js"></script>
 
