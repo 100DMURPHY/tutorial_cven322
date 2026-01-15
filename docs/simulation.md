@@ -4,7 +4,7 @@ Moving from deterministic models to **Stochastic** models to account for real-wo
 
 
 
-## 1. Monte Carlo Simulation
+## Monte Carlo Simulation
 Instead of using an "average" value, we sample from probability distributions.
 - **Distributions**:
     - **Normal**: Bell curve (e.g., test scores, material strength).
@@ -14,7 +14,7 @@ Instead of using an "average" value, we sample from probability distributions.
 
 ![Monte Carlo Tool](assets/screenshots/simulation.png)
 
-## 2. Pareto Frontier
+## Pareto Frontier
 Used in **Multi-Objective Optimization**.
 - **The Conflict**: Often, as we increase the **Reliability** of a system, the **Cost** also increases.
 - **Efficiency**: The red line shows the "Pareto Frontier"—design points where you cannot improve one objective without sacrificing the other.

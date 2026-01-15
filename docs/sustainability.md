@@ -2,7 +2,7 @@
 
 The Sustainability module provides tools to understand the environmental and social impacts of engineering decisions.
 
-## Pillars of Sustainability
+## The Three Pillars of Sustainability
 This interactive tool visualizes the intersection of Economic, Social, and Environmental factors. True sustainability is achieved only at the intersection of all three.
 
 ![Sustainability Pillars](assets/screenshots/sustainability.png)

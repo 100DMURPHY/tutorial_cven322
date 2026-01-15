@@ -4,7 +4,7 @@ Solving complex engineering decisions by maximizing or minimizing objective func
 
 
 
-## 1. Graphical LP Solver
+## Graphical LP Solver
 Designed for 2-variable problems ($x_1, x_2$).
 - **Feasible Region**: The green shaded area represents all points $(x_1, x_2)$ that satisfy all constraints simultaneously.
 - **Optimal Point**: Identified by the red dot. It typically occurs at a "corner point" of the feasible region.
@@ -12,14 +12,14 @@ Designed for 2-variable problems ($x_1, x_2$).
 
 ![Graphical LP Solver](assets/screenshots/optimization.png)
 
-## 2. Sensitivity Analysis (Shadow Prices)
+## Sensitivity Analysis
 How stable is our solution?
 - **Trend Chart**: Shows how the maximum profit ($Z$) changes as you increase a resource limit ($b_1$).
 - **Shadow Price**: The marginal value of an additional unit of resource. If the Shadow Price of $b_1$ is 2.0, adding 1 unit to the limit increases your objective value by 2.0.
 
 ![Sensitivity Analysis Tool](assets/screenshots/opt_sensitivity.png)
 
-## 3. Network Modeling
+## Network Modeling
 - **Shortest Path**: Using Dijkstra's algorithm.
 - **CPM (Critical Path Method)**: Identify critical activities, calculate ES, LS, and Slack.
 - **Nodes & Links**: Represents intersections and roads, or routers and cables.
@@ -28,7 +28,7 @@ How stable is our solution?
 
 ![Network Modeling Tool](assets/screenshots/opt_network.png)
 
-### Pedagogical Tools
+## Simplex Tableau
 - **Simplex Tableau Visualizer**: Step-by-step pivoting demonstration for linear programming.
 
 ![Simplex Tableau Tool](assets/screenshots/opt_simplex.png)
