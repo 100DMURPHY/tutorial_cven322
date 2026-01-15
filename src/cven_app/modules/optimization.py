@@ -19,7 +19,7 @@ def content():
             graphical_lp_tool()
         with ui.tab_panel(t2):
             sensitivity_analysis_tool()
-        with ui.tab_panel(ui.tab('Network Modeling')):
+        with ui.tab_panel(t3):
             network_module()
 
 def graphical_lp_tool():

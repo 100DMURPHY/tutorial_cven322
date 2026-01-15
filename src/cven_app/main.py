@@ -1,24 +1,33 @@
 from nicegui import ui
 from cven_app.modules import economics, optimization, simulation
 
-# Global styling - this can be called once at module level or in a shared layout
+# Global styling
 def apply_theme():
     ui.colors(primary='#1e40af', secondary='#3b82f6', accent='#f59e0b')
+
+def shared_header(title_text='CVEN322: Civil Engineering Systems', color='bg-blue-900'):
+    with ui.header().classes(f'items-center justify-between px-8 {color}'):
+        with ui.row().classes('items-center'):
+            ui.icon('engineering', size='2rem').classes('text-white mr-2')
+            if title_text == 'CVEN322: Civil Engineering Systems':
+                ui.label(title_text).classes('font-bold text-xl text-white')
+            else:
+                ui.button(on_click=lambda: ui.navigate.to('/')).props('flat color=white icon=arrow_back')
+                ui.label(title_text).classes('text-xl font-bold text-white')
+        
+        with ui.row().classes('gap-4 items-center'):
+            ui.button('Economics', on_click=lambda: ui.navigate.to('/economics')).props('flat color=white')
+            ui.button('Optimization', on_click=lambda: ui.navigate.to('/optimization')).props('flat color=white')
+            ui.button('Simulation', on_click=lambda: ui.navigate.to('/simulation')).props('flat color=white')
+            # Use ui.link for better reliability with external links
+            with ui.element('div').classes('p-2 border border-white rounded hover:bg-white/10 transition-colors'):
+                ui.link('DOCS', 'https://100dmurphy.github.io/tutorial_cven322/', new_tab=True).classes('text-white font-bold no-underline flex items-center')
+                ui.icon('description', color='white').classes('ml-1')
 
 @ui.page('/')
 def index():
     apply_theme()
-    with ui.header().classes('items-center justify-between px-8 bg-blue-900'):
-        with ui.row().classes('items-center'):
-            ui.icon('engineering', size='2rem').classes('text-white mr-2')
-            ui.label('CVEN322: Civil Engineering Systems').classes('font-bold text-xl text-white')
-        
-        with ui.row().classes('gap-4'):
-            ui.button('Economics', on_click=lambda: ui.navigate.to('/economics')).props('flat color=white')
-            ui.button('Optimization', on_click=lambda: ui.navigate.to('/optimization')).props('flat color=white')
-            ui.button('Simulation', on_click=lambda: ui.navigate.to('/simulation')).props('flat color=white')
-            ui.button('Docs', on_click=lambda: ui.open('https://100dmurphy.github.io/tutorial_cven322/')).props('outline color=white icon=description')
-
+    shared_header()
     with ui.column().classes('w-full items-center p-12 max-w-5xl mx-auto'):
         ui.label('Advanced Engineering Systems').classes('text-h2 font-black text-blue-900 text-center')
         ui.label('Interactive Learning Platform for CVEN 322').classes('text-h5 text-gray-600 q-mb-xl text-center')
@@ -53,27 +62,21 @@ def index():
 @ui.page('/economics')
 def econ_page():
     apply_theme()
-    with ui.header().classes('bg-blue-800'):
-        ui.button(on_click=lambda: ui.navigate.to('/')).props('flat color=white icon=arrow_back')
-        ui.label('Engineering Economics').classes('text-xl font-bold')
+    shared_header('Engineering Economics', color='bg-blue-800')
     with ui.column().classes('p-8 max-w-5xl mx-auto w-full'):
         economics.content()
 
 @ui.page('/optimization')
 def opt_page():
     apply_theme()
-    with ui.header().classes('bg-green-800'):
-        ui.button(on_click=lambda: ui.navigate.to('/')).props('flat color=white icon=arrow_back')
-        ui.label('Optimization Modeling').classes('text-xl font-bold')
+    shared_header('Optimization Modeling', color='bg-green-800')
     with ui.column().classes('p-8 max-w-5xl mx-auto w-full'):
         optimization.content()
 
 @ui.page('/simulation')
 def sim_page():
     apply_theme()
-    with ui.header().classes('bg-orange-800'):
-        ui.button(on_click=lambda: ui.navigate.to('/')).props('flat color=white icon=arrow_back')
-        ui.label('Systems & Simulation').classes('text-xl font-bold')
+    shared_header('Systems & Simulation', color='bg-orange-800')
     with ui.column().classes('p-8 max-w-5xl mx-auto w-full'):
         simulation.content()
 
