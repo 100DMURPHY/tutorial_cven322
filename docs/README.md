@@ -2,6 +2,8 @@
 
 Welcome to the interactive platform for **CVEN322**. This platform is designed to provide high-transparency access to engineering concepts through live, interactive visualizations.
 
+![CVEN322 Platform Home](assets/screenshots/home.png)
+
 ## Quick Start: How to Run
 
 The application is distributed as a Python package. You can run it directly from GitHub using `uvx` without installing anything locally.

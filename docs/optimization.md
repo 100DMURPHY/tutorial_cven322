@@ -2,7 +2,7 @@
 
 Solving complex engineering decisions by maximizing or minimizing objective functions subject to constraints.
 
-![Optimization Modeling Module](assets/screenshots/optimization.png)
+
 
 ## 1. Graphical LP Solver
 Designed for 2-variable problems ($x_1, x_2$).
