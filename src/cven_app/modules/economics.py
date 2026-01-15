@@ -357,7 +357,7 @@ def loan_amortization_tool():
                         {'name': 'Principal', 'type': 'bar', 'stack': 'total', 'data': [], 'itemStyle': {'color': '#3b82f6'}},
                         {'name': 'Interest', 'type': 'bar', 'stack': 'total', 'data': [], 'itemStyle': {'color': '#f59e0b'}}
                     ]
-                }).classes('w-full h-80')
+                }).classes('w-full h-96')
 
         def update_table():
             p = principal.value
@@ -402,20 +402,29 @@ def incremental_irr_tool():
         ''')
         
         with ui.row().classes('w-full gap-8'):
-            with ui.column().classes('flex-1 p-4 bg-gray-50 rounded'):
-                ui.label('Project A (Lower Cost)').classes('font-bold border-b w-full mb-2')
-                c_a = ui.number('Cost ($)', value=5000)
-                b_a = ui.number('Annual Benefit ($)', value=1500)
-            
-            with ui.column().classes('flex-1 p-4 bg-gray-50 rounded'):
-                ui.label('Project B (Higher Cost)').classes('font-bold border-b w-full mb-2')
-                c_b = ui.number('Cost ($)', value=8000)
-                b_b = ui.number('Annual Benefit ($)', value=2200)
-        
-        n_ui = ui.number('Shared Life (Years)', value=10).classes('w-full q-mt-md')
-        ui.button('Determine Incremental IRR', icon='trending_up', on_click=lambda: calculate()).classes('w-full q-mt-md')
-        
-        res_label = ui.label('').classes('text-xl font-bold text-center w-full q-mt-md text-blue-800')
+            with ui.column().classes('w-80 space-y-4'):
+                with ui.column().classes('w-full p-4 bg-gray-50 rounded shadow-inner'):
+                    ui.label('Project A (Lower Cost)').classes('font-bold border-b w-full mb-2')
+                    c_a = ui.number('Cost ($)', value=5000).classes('w-full')
+                    b_a = ui.number('Annual Benefit ($)', value=1500).classes('w-full')
+                
+                with ui.column().classes('w-full p-4 bg-gray-50 rounded shadow-inner'):
+                    ui.label('Project B (Higher Cost)').classes('font-bold border-b w-full mb-2')
+                    c_b = ui.number('Cost ($)', value=8000).classes('w-full')
+                    b_b = ui.number('Annual Benefit ($)', value=2200).classes('w-full')
+                
+                n_ui = ui.number('Shared Life (Years)', value=10).classes('w-full')
+                ui.button('Determine Incremental IRR', icon='trending_up', on_click=lambda: calculate()).classes('w-full')
+
+            with ui.column().classes('flex-1 items-center justify-center p-8 bg-blue-50/30 rounded border-2 border-dashed border-blue-100'):
+                res_label = ui.label('Enter project details to calculate').classes('text-xl font-bold text-center w-full text-blue-800')
+                ui.markdown(r'''
+                ### Methodology
+                1. Find $\Delta$ Cost ($C_B - C_A$)
+                2. Find $\Delta$ Annual Benefit ($B_B - B_A$)
+                3. Calculate IRR of the incremental cash flow.
+                4. If $IRR_{\Delta} > MARR$, choose the more expensive Project B.
+                ''').classes('text-gray-600 q-mt-md')
 
         def calculate():
             dc0 = c_b.value - c_a.value

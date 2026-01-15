@@ -2,6 +2,8 @@
 
 This module focuses on the **Time Value of Money (TVM)**, a foundational concept in Civil Engineering project management and evaluation.
 
+![Engineering Economics Module](assets/screenshots/economics.png)
+
 ## 1. Single Payment (P/F)
 Computes the Future Value ($F$) from a Present Value ($P$) given an interest rate ($i$) and period ($n$).
 - **Formula**: $F = P(1+i)^n$

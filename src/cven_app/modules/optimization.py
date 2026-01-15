@@ -80,7 +80,7 @@ def graphical_lp_tool():
                     ],
                     'legend': {'data': ['Constraint 1', 'Constraint 2', 'Feasible Region', 'Optimal Point'], 'bottom': 0},
                     'tooltip': {'trigger': 'axis'}
-                }).classes('w-full h-80')
+                }).classes('w-full h-96')
 
                 def update():
                     v_b1 = b1.value

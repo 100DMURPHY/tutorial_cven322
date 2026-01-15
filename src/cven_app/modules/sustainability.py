@@ -25,7 +25,7 @@ def pillars_tool():
     with ui.card().classes('w-full p-6 shadow-lg overflow-hidden'):
         ui.label('The Three Pillars: Economic, Social, and Environmental').classes('text-h5 q-mb-md')
         
-        with ui.row().classes('w-full justify-center items-center gap-12 p-8'):
+        with ui.row().classes('w-full justify-between items-center gap-8 p-8 flex-nowrap'):
             # Custom Venn Diagram with CSS
             with ui.element('div').classes('relative w-96 h-80'):
                 # Circles
