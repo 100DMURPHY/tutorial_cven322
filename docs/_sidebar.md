@@ -1,4 +1,4 @@
-- [Home](README.md)
-- [Economics](economics.md)
-- [Optimization](optimization.md)
-- [Simulation](simulation.md)
+- [Home](/)
+- [Economics](economics)
+- [Optimization](optimization)
+- [Simulation](simulation)
