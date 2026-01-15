@@ -396,7 +396,7 @@ def loan_amortization_tool():
 def incremental_irr_tool():
     with ui.card().classes('w-full p-6 shadow-lg'):
         ui.label('Incremental IRR Analysis').classes('text-h5 q-mb-md')
-        ui.markdown('''
+        ui.markdown(r'''
         Used to determine if the **additional investment** in a more expensive project is justified.
         We calculate the IRR of the *difference* in cash flows ($\Delta CF = CF_B - CF_A$).
         ''')
