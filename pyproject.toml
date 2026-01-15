@@ -1,0 +1,19 @@
+[project]
+name = "cven-app"
+version = "0.1.0"
+description = "A teaching-focused platform for CVEN322 Civil Engineering Systems"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "nicegui>=1.4.0",
+    "plotly>=5.0.0",
+    "pandas>=2.0.0",
+    "pyecharts>=2.0.0",
+]
+
+[project.scripts]
+cven-app = "cven_app.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
