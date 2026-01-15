@@ -23,7 +23,6 @@ def shared_header(title_text='CVEN322: Civil Engineering Systems', color='bg-blu
             # Use ui.link for better reliability with external links
             with ui.element('div').classes('p-2 border border-white rounded hover:bg-white/10 transition-colors'):
                 ui.link('DOCS', 'https://100dmurphy.github.io/tutorial_cven322/', new_tab=True).classes('text-white font-bold no-underline flex items-center')
-                ui.icon('description', color='white').classes('ml-1')
 
 @ui.page('/')
 def index():
