@@ -29,7 +29,7 @@ def shared_header(title_text='CVEN322: Civil Engineering Systems', color='bg-blu
 def index():
     apply_theme()
     shared_header()
-    with ui.column().classes('w-full items-center p-12 max-w-7xl mx-auto'):
+    with ui.column().classes('w-full items-center p-12 max-w-screen-2xl mx-auto'):
         ui.label('Advanced Engineering Systems').classes('text-h2 font-black text-blue-900 text-center')
         ui.label('Interactive Learning Platform for CVEN 322').classes('text-h5 text-gray-600 q-mb-xl text-center')
         
@@ -39,28 +39,28 @@ def index():
         ''').classes('text-center text-lg max-w-2xl text-gray-500 text-balance')
         
         with ui.grid(columns='repeat(auto-fit, minmax(280px, 1fr))').classes('w-full gap-8 q-mt-xl'):
-            with ui.card().classes('w-80 p-6 hover:scale-105 transition-transform cursor-pointer shadow-xl').on('click', lambda: ui.navigate.to('/economics')):
+            with ui.card().classes('w-full p-6 hover:scale-105 transition-transform cursor-pointer shadow-xl').on('click', lambda: ui.navigate.to('/economics')):
                 ui.icon('payments', size='3rem').classes('text-blue-600 q-mb-md')
                 ui.label('Engineering Economics').classes('text-h5 font-bold')
                 ui.label('Cash flow diagrams, time value of money, and project evaluation metrics (IRR, NPV).').classes('text-gray-500')
                 ui.separator().classes('q-my-md')
                 ui.button('Explore Module', icon='arrow_forward').props('flat').classes('w-full')
             
-            with ui.card().classes('w-80 p-6 hover:scale-105 transition-transform cursor-pointer shadow-xl').on('click', lambda: ui.navigate.to('/optimization')):
+            with ui.card().classes('w-full p-6 hover:scale-105 transition-transform cursor-pointer shadow-xl').on('click', lambda: ui.navigate.to('/optimization')):
                 ui.icon('trending_up', size='3rem').classes('text-green-600 q-mb-md')
                 ui.label('Optimization Modeling').classes('text-h5 font-bold')
                 ui.label('Linear, Integer, and Nonlinear programming models for complex engineering decisions.').classes('text-gray-500')
                 ui.separator().classes('q-my-md')
                 ui.button('Explore Module', icon='arrow_forward').props('flat').classes('w-full')
             
-            with ui.card().classes('w-80 p-6 hover:scale-105 transition-transform cursor-pointer shadow-xl').on('click', lambda: ui.navigate.to('/simulation')):
+            with ui.card().classes('w-full p-6 hover:scale-105 transition-transform cursor-pointer shadow-xl').on('click', lambda: ui.navigate.to('/simulation')):
                 ui.icon('science', size='3rem').classes('text-orange-600 q-mb-md')
                 ui.label('Systems & Sim').classes('text-h5 font-bold')
                 ui.label('Stochastic processes, simulation models, and multi-objective Pareto analysis.').classes('text-gray-500')
                 ui.separator().classes('q-my-md')
                 ui.button('Explore Module', icon='arrow_forward').props('flat').classes('w-full')
 
-            with ui.card().classes('w-80 p-6 hover:scale-105 transition-transform cursor-pointer shadow-xl').on('click', lambda: ui.navigate.to('/sustainability')):
+            with ui.card().classes('w-full p-6 hover:scale-105 transition-transform cursor-pointer shadow-xl').on('click', lambda: ui.navigate.to('/sustainability')):
                 ui.icon('eco', size='3rem').classes('text-green-800 q-mb-md')
                 ui.label('Sustainability').classes('text-h5 font-bold')
                 ui.label('Pillars of sustainability, weak vs. strong models, and project carbon footprinting.').classes('text-gray-500')
