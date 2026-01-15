@@ -96,7 +96,7 @@ def sustainability_page():
         sustainability.content()
 
 def main():
-    ui.run(title='CVEN322 Platform', port=8080, reload=False, dark=False)
+    ui.run(title='CVEN322 Platform', host='127.0.0.1', port=8080, reload=False, dark=False)
 
 if __name__ in {"__main__", "builtins"}:
     main()
