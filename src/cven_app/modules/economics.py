@@ -412,7 +412,7 @@ def incremental_irr_tool():
                 c_b = ui.number('Cost ($)', value=8000)
                 b_b = ui.number('Annual Benefit ($)', value=2200)
         
-        n_ui = ui.number('Shared Life (Years)', value=10, classes='w-full q-mt-md')
+        n_ui = ui.number('Shared Life (Years)', value=10).classes('w-full q-mt-md')
         ui.button('Determine Incremental IRR', icon='trending_up', on_click=lambda: calculate()).classes('w-full q-mt-md')
         
         res_label = ui.label('').classes('text-xl font-bold text-center w-full q-mt-md text-blue-800')

@@ -22,38 +22,41 @@ def content():
             carbon_calculator_tool()
 
 def pillars_tool():
-    with ui.card().classes('w-full p-6 shadow-lg'):
+    with ui.card().classes('w-full p-6 shadow-lg overflow-hidden'):
         ui.label('The Three Pillars: Economic, Social, and Environmental').classes('text-h5 q-mb-md')
         
-        with ui.row().classes('w-full justify-center items-center gap-12'):
-            # Interactive Venn Diagram using ECharts
-            chart = ui.echart({
-                'tooltip': {'trigger': 'item'},
-                'series': [{
-                    'type': 'venn',
-                    'data': [
-                        {'name': 'Economic', 'value': 10, 'itemStyle': {'color': '#3b82f6', 'opacity': 0.6}},
-                        {'name': 'Social', 'value': 10, 'itemStyle': {'color': '#f59e0b', 'opacity': 0.6}},
-                        {'name': 'Environmental', 'value': 10, 'itemStyle': {'color': '#10b981', 'opacity': 0.6}},
-                        {'name': 'Equitable', 'sets': ['Social', 'Environmental'], 'value': 2},
-                        {'name': 'Viable', 'sets': ['Economic', 'Environmental'], 'value': 2},
-                        {'name': 'Bearable', 'sets': ['Economic', 'Social'], 'value': 2},
-                        {'name': 'Sustainable', 'sets': ['Economic', 'Social', 'Environmental'], 'value': 1}
-                    ]
-                }]
-            }).classes('w-full h-96')
+        with ui.row().classes('w-full justify-center items-center gap-12 p-8'):
+            # Custom Venn Diagram with CSS
+            with ui.element('div').classes('relative w-96 h-80'):
+                # Circles
+                ui.element('div').classes('absolute bg-blue-500/40 rounded-full border-2 border-blue-500 w-52 h-52').style('top: 0; left: 0')
+                ui.element('div').classes('absolute bg-orange-500/40 rounded-full border-2 border-orange-500 w-52 h-52').style('top: 0; right: 0')
+                ui.element('div').classes('absolute bg-green-500/40 rounded-full border-2 border-green-500 w-52 h-52').style('bottom: 0; left: 50%; transform: translateX(-50%)')
+                
+                # Intersection Labels
+                ui.label('Sustainable').classes('absolute font-bold text-black').style('top: 35%; left: 50%; transform: translateX(-50%)')
+                ui.label('Equitable').classes('absolute text-xs font-semibold').style('top: 20%; left: 50%; transform: translateX(-50%)')
+                ui.label('Viable').classes('absolute text-xs font-semibold').style('bottom: 35%; left: 25%')
+                ui.label('Bearable').classes('absolute text-xs font-semibold').style('bottom: 35%; right: 25%')
+
+                # Primary Labels
+                ui.label('Economic').classes('absolute text-blue-800 font-bold italic').style('top: 5%; left: 5%')
+                ui.label('Social').classes('absolute text-orange-800 font-bold italic').style('top: 5%; right: 5%')
+                ui.label('Environmental').classes('absolute text-green-800 font-bold italic').style('bottom: 5%; left: 50%; transform: translateX(-50%)')
             
             ui.markdown('''
-            - **Economic**: Feasibility, profit, and financial growth.
-            - **Social**: Equity, health, safety, and community impact.
-            - **Environmental**: Resource conservation, pollution prevention, and biodiversity.
+            ### The Triple Bottom Line
+            True sustainability is achieved only at the intersection of all three pillars.
+            
+            - **Economic**: Financial feasibility and long-term viability.
+            - **Social**: Equity, community health, and social justice.
+            - **Environmental**: Stewardship of natural resources and biodiversity.
             
             **Intersections**:
             - *Viable*: Economic + Environmental
             - *Bearable*: Social + Environmental
             - *Equitable*: Economic + Social
-            - **Sustainable**: The sweet spot where all three overlap.
-            ''').classes('text-lg max-w-md')
+            ''').classes('text-lg max-w-md bg-gray-50 p-4 rounded-lg border-l-4 border-blue-900')
 
 def sustainability_theory_tool():
     with ui.card().classes('w-full p-6 shadow-lg'):
