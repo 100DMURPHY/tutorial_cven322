@@ -7,6 +7,8 @@ Computes the Future Value ($F$) from a Present Value ($P$) given an interest rat
 - **Formula**: $F = P(1+i)^n$
 - **What-If Analysis**: Use the **"Save Current as Base"** button to overlay a secondary dashed line on the chart. This allows you to compare how different interest rates affect growth over time.
 
+![Single Payment Tool](assets/screenshots/econ_single_payment.png)
+
 ## 2. Uniform Series (P/A)
  Determines the equivalent present worth of a series of equal annual payments ($A$).
 - **Formula**: $P = A \times \frac{(1+i)^n - 1}{i(1+i)^n}$
