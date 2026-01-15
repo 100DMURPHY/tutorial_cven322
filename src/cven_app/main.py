@@ -28,16 +28,16 @@ def shared_header(title_text='CVEN322: Civil Engineering Systems', color='bg-blu
 def index():
     apply_theme()
     shared_header()
-    with ui.column().classes('w-full items-center p-12 max-w-5xl mx-auto'):
+    with ui.column().classes('w-full items-center p-12 max-w-6xl mx-auto'):
         ui.label('Advanced Engineering Systems').classes('text-h2 font-black text-blue-900 text-center')
         ui.label('Interactive Learning Platform for CVEN 322').classes('text-h5 text-gray-600 q-mb-xl text-center')
         
         ui.markdown('''
         This platform is dedicated to providing high-transparency access to core Civil Engineering systems methods.
         Explore the modules below to interact with real-world engineering concepts.
-        ''').classes('text-center text-lg max-w-2xl text-gray-500')
+        ''').classes('text-center text-lg max-w-2xl text-gray-500 text-balance')
         
-        with ui.row().classes('w-full justify-center gap-8 q-mt-xl'):
+        with ui.row().classes('w-full justify-center gap-6 q-mt-xl no-wrap'):
             with ui.card().classes('w-80 p-6 hover:scale-105 transition-transform cursor-pointer shadow-xl').on('click', lambda: ui.navigate.to('/economics')):
                 ui.icon('payments', size='3rem').classes('text-blue-600 q-mb-md')
                 ui.label('Engineering Economics').classes('text-h5 font-bold')
