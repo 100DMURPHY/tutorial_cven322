@@ -14,7 +14,11 @@ How stable is our solution?
 - **Shadow Price**: The marginal value of an additional unit of resource. If the Shadow Price of $b_1$ is 2.0, adding 1 unit to the limit increases your objective value by 2.0.
 
 ## 3. Network Modeling
-Focuses on the **Shortest Path Problem**.
+- **Shortest Path**: Using Dijkstra's algorithm.
+- **CPM (Critical Path Method)**: Identify critical activities, calculate ES, LS, and Slack.
 - **Nodes & Links**: Represents intersections and roads, or routers and cables.
 - **Dijkstra's Algorithm**: The "Find Shortest Path" button runs Dijkstra's algorithm to compute the most efficient route from Node A to Node F.
 - **Visualization**: The optimal path is highlighted in **red**.
+
+### Pedagogical Tools
+- **Simplex Tableau Visualizer**: Step-by-step pivoting demonstration for linear programming.

@@ -18,3 +18,4 @@ uvx --from git+https://github.com/100DMURPHY/tutorial_cven322.git cven-app
 - **[Engineering Economics](economics)**: TVM, IRR, and Depreciation.
 - **[Optimization Modeling](optimization)**: Feasible regions, Shadow Prices, and Dijkstra's algorithm.
 - **[Systems & Simulation](simulation)**: Monte Carlo risks and Pareto frontiers.
+- **[Sustainability](sustainability)**: Carbon footprint and theoretical models.

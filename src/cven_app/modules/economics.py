@@ -16,6 +16,8 @@ def content():
         t3 = ui.tab('Project Comparison (PW)')
         t4 = ui.tab('IRR Visualizer')
         t5 = ui.tab('Depreciation')
+        t6 = ui.tab('Loan Amortization')
+        t7 = ui.tab('Incremental IRR')
 
     with ui.tab_panels(tabs, value=t1).classes('w-full bg-transparent'):
         with ui.tab_panel(t1):
@@ -28,6 +30,10 @@ def content():
             irr_visualizer_tool()
         with ui.tab_panel(t5):
             depreciation_tool()
+        with ui.tab_panel(t6):
+            loan_amortization_tool()
+        with ui.tab_panel(t7):
+            incremental_irr_tool()
 
 def single_payment_calculator():
     with ui.card().classes('w-full p-6 shadow-lg'):
@@ -168,8 +174,16 @@ def project_comparison_module():
                 cost_b = ui.number('Initial Cost ($)', value=8000)
                 benefit_b = ui.number('Annual Benefit ($)', value=2200)
 
+        with ui.row().classes('w-full gap-4 q-mt-md items-center'):
+            inflation = ui.slider(min=0, max=10, value=0, step=0.1).classes('flex-1')
+            ui.label('Inflation:').bind_text_from(inflation, 'value', backward=lambda v: f'Inflation: {v}%')
+            ui.icon('info', size='1rem').tooltip('Adjusts discount rate to "Real" rate: i_real = (i - f)/(1 + f)')
+
         def calculate_pw():
-            i = rate.value / 100
+            i_nom = rate.value / 100
+            f = inflation.value / 100
+            # Fisher relation: (1+i_nom) = (1+i_real)(1+f) -> i_real = (1+i_nom)/(1+f) - 1
+            i = (1 + i_nom) / (1 + f) - 1
             n = int(years.value)
             factor = (((1 + i)**n - 1) / (i * (1 + i)**n)) if i > 0 else n
             pw_a = -cost_a.value + benefit_a.value * factor
@@ -319,3 +333,108 @@ def depreciation_tool():
             chart.update()
 
         update()
+
+def loan_amortization_tool():
+    with ui.card().classes('w-full p-6 shadow-lg'):
+        ui.label('Loan Amortization Schedule').classes('text-h5 q-mb-md')
+        
+        with ui.row().classes('w-full gap-8'):
+            with ui.column().classes('w-64'):
+                principal = ui.number('Loan Amount ($)', value=200000, min=0)
+                rate_ui = ui.number('Annual Interest (%)', value=5, format='%.2f')
+                years_ui = ui.number('Term (Years)', value=30, precision=0)
+                
+                ui.button('Generate Table', icon='table_view', on_click=lambda: update_table()).classes('w-full q-mt-md')
+
+            with ui.column().classes('flex-1'):
+                chart = ui.echart({
+                    'title': {'text': 'Principal vs. Interest Over Time', 'left': 'center'},
+                    'tooltip': {'trigger': 'axis'},
+                    'legend': {'bottom': 0},
+                    'xAxis': {'type': 'category', 'data': []},
+                    'yAxis': {'type': 'value', 'name': 'Payment Component ($)'},
+                    'series': [
+                        {'name': 'Principal', 'type': 'bar', 'stack': 'total', 'data': [], 'itemStyle': {'color': '#3b82f6'}},
+                        {'name': 'Interest', 'type': 'bar', 'stack': 'total', 'data': [], 'itemStyle': {'color': '#f59e0b'}}
+                    ]
+                }).classes('w-full h-80')
+
+        def update_table():
+            p = principal.value
+            r = (rate_ui.value / 100) / 12 # Monthly
+            n = int(years_ui.value) * 12 # Monthly periods
+            
+            if r == 0:
+                payment = p / n
+            else:
+                payment = p * (r * (1 + r)**n) / ((1 + r)**n - 1)
+            
+            p_comp = []
+            i_comp = []
+            balance = p
+            
+            # Record yearly totals to keep chart readable
+            for year in range(1, int(years_ui.value) + 1):
+                y_p = 0
+                y_i = 0
+                for _ in range(12):
+                    interest = balance * r
+                    prin = payment - interest
+                    y_p += prin
+                    y_i += interest
+                    balance -= prin
+                p_comp.append(round(y_p, 2))
+                i_comp.append(round(y_i, 2))
+            
+            chart.options['xAxis']['data'] = [f'Yr {i}' for i in range(1, int(years_ui.value) + 1)]
+            chart.options['series'][0]['data'] = p_comp
+            chart.options['series'][1]['data'] = i_comp
+            chart.update()
+
+        update_table()
+
+def incremental_irr_tool():
+    with ui.card().classes('w-full p-6 shadow-lg'):
+        ui.label('Incremental IRR Analysis').classes('text-h5 q-mb-md')
+        ui.markdown('''
+        Used to determine if the **additional investment** in a more expensive project is justified.
+        We calculate the IRR of the *difference* in cash flows ($\Delta CF = CF_B - CF_A$).
+        ''')
+        
+        with ui.row().classes('w-full gap-8'):
+            with ui.column().classes('flex-1 p-4 bg-gray-50 rounded'):
+                ui.label('Project A (Lower Cost)').classes('font-bold border-b w-full mb-2')
+                c_a = ui.number('Cost ($)', value=5000)
+                b_a = ui.number('Annual Benefit ($)', value=1500)
+            
+            with ui.column().classes('flex-1 p-4 bg-gray-50 rounded'):
+                ui.label('Project B (Higher Cost)').classes('font-bold border-b w-full mb-2')
+                c_b = ui.number('Cost ($)', value=8000)
+                b_b = ui.number('Annual Benefit ($)', value=2200)
+        
+        n_ui = ui.number('Shared Life (Years)', value=10, classes='w-full q-mt-md')
+        ui.button('Determine Incremental IRR', icon='trending_up', on_click=lambda: calculate()).classes('w-full q-mt-md')
+        
+        res_label = ui.label('').classes('text-xl font-bold text-center w-full q-mt-md text-blue-800')
+
+        def calculate():
+            dc0 = c_b.value - c_a.value
+            da = b_b.value - b_a.value
+            n = int(n_ui.value)
+            
+            if dc0 <= 0 or da <= 0:
+                res_label.text = "Incremental cost or benefit must be positive for IRR calculation."
+                return
+
+            # Solve for r: -dc0 + da * factor = 0
+            # factor = ((1+r)**n - 1) / (r * (1+r)**n)
+            low, high = 0.0001, 1.0
+            for _ in range(20):
+                mid = (low + high) / 2
+                f = ((1+mid)**n - 1) / (mid * (1+mid)**n)
+                if -dc0 + da*f > 0: low = mid
+                else: high = mid
+            
+            irr = low * 100
+            res_label.text = f'Incremental IRR (ΔB/ΔC): {irr:.2f}%'
+            ui.notify(f'If MARR < {irr:.1f}%, choose Project B.')

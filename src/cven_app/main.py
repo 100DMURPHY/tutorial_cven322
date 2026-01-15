@@ -1,5 +1,5 @@
 from nicegui import ui
-from cven_app.modules import economics, optimization, simulation
+from cven_app.modules import economics, optimization, simulation, sustainability
 
 # Global styling
 def apply_theme():
@@ -19,6 +19,7 @@ def shared_header(title_text='CVEN322: Civil Engineering Systems', color='bg-blu
             ui.button('Economics', on_click=lambda: ui.navigate.to('/economics')).props('flat color=white')
             ui.button('Optimization', on_click=lambda: ui.navigate.to('/optimization')).props('flat color=white')
             ui.button('Simulation', on_click=lambda: ui.navigate.to('/simulation')).props('flat color=white')
+            ui.button('Sustainability', on_click=lambda: ui.navigate.to('/sustainability')).props('flat color=white')
             # Use ui.link for better reliability with external links
             with ui.element('div').classes('p-2 border border-white rounded hover:bg-white/10 transition-colors'):
                 ui.link('DOCS', 'https://100dmurphy.github.io/tutorial_cven322/', new_tab=True).classes('text-white font-bold no-underline flex items-center')
@@ -59,6 +60,13 @@ def index():
                 ui.separator().classes('q-my-md')
                 ui.button('Explore Module', icon='arrow_forward').props('flat').classes('w-full')
 
+            with ui.card().classes('w-80 p-6 hover:scale-105 transition-transform cursor-pointer shadow-xl').on('click', lambda: ui.navigate.to('/sustainability')):
+                ui.icon('eco', size='3rem').classes('text-green-800 q-mb-md')
+                ui.label('Sustainability').classes('text-h5 font-bold')
+                ui.label('Pillars of sustainability, weak vs. strong models, and project carbon footprinting.').classes('text-gray-500')
+                ui.separator().classes('q-my-md')
+                ui.button('Explore Module', icon='arrow_forward').props('flat').classes('w-full')
+
 @ui.page('/economics')
 def econ_page():
     apply_theme()
@@ -79,6 +87,13 @@ def sim_page():
     shared_header('Systems & Simulation', color='bg-orange-800')
     with ui.column().classes('p-8 max-w-5xl mx-auto w-full'):
         simulation.content()
+
+@ui.page('/sustainability')
+def sustainability_page():
+    apply_theme()
+    shared_header('Sustainability', color='bg-green-900')
+    with ui.column().classes('p-8 max-w-5xl mx-auto w-full'):
+        sustainability.content()
 
 def main():
     ui.run(title='CVEN322 Platform', port=8080, reload=False, dark=False)

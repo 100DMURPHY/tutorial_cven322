@@ -12,6 +12,15 @@ Determines the equivalent present worth of a series of equal annual payments ($A
 - **Formula**: $P = A \times \frac{(1+i)^n - 1}{i(1+i)^n}$
 - **Visualization**: The bar chart shows the cumulative present worth as the investment period extends.
 
+### Project Evaluation Metrics
+- **PW Analysis**: Compare net present worth of competing projects.
+- **IRR**: Find the internal rate of return using binary search on the NPV curve.
+- **Incremental IRR**: Analyze the difference between two projects ($\Delta CF = CF_B - CF_A$) to justify additional investment. If the incremental IRR is greater than the MARR, the more expensive project is preferred.
+
+### Additional Tools
+- **Loan Amortization**: Visualize the breakdown of interest vs. principal payments over the life of a loan. This illustrates how high-interest early payments transition to principal recovery.
+- **Depreciation Comparator**: Compare SL, SYD, and MACRS methods side-by-side.
+
 ## 3. IRR Visualizer
 The **Internal Rate of Return (IRR)** is the discount rate ($i$) that satisfies the equation $NPV = 0$.
 - **Interpretation**: If the IRR is higher than your Minimum Attractive Rate of Return (MARR), the project is generally considered economically viable.
@@ -23,3 +32,4 @@ Compares capital recovery methods.
 - **MACRS**: An accelerated method used for tax purposes in the US.
 - **SYD**: Sum-of-Years' Digits, another accelerated method.
 - **Insight**: Check the chart to see how accelerated methods provide larger tax shields in the earlier years of an asset's life.
+

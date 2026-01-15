@@ -13,6 +13,7 @@ def content():
         t1 = ui.tab('Graphical LP Solver')
         t2 = ui.tab('Sensitivity Analysis')
         t3 = ui.tab('Network Modeling')
+        t4 = ui.tab('Simplex Tableau')
 
     with ui.tab_panels(tabs, value=t1).classes('w-full bg-transparent'):
         with ui.tab_panel(t1):
@@ -21,6 +22,8 @@ def content():
             sensitivity_analysis_tool()
         with ui.tab_panel(t3):
             network_module()
+        with ui.tab_panel(t4):
+            simplex_tableau_tool()
 
 def graphical_lp_tool():
     with ui.card().classes('w-full p-6 shadow-lg'):
@@ -220,10 +223,10 @@ def sensitivity_analysis_tool():
 
 def network_module():
     with ui.card().classes('w-full p-6 shadow-lg'):
-        ui.label('Network Modeling: Shortest Path').classes('text-h5 q-mb-md')
+        ui.label('Network Modeling: CPM Analysis').classes('text-h5 q-mb-md')
         ui.markdown('''
-        Many engineering problems (transportation, water, communication) can be modeled as **Networks**. 
-        Here we find the **shortest path** from Node A to Node F.
+        Critical Path Method (CPM) identifies the longest path of planned activities to the end of the project. 
+        It calculates early/late starts and identifies "Slack" for each task.
         ''')
 
         # Define graph
@@ -265,50 +268,78 @@ def network_module():
             }]
         }).classes('w-full h-96')
 
-        def solve():
-            # Very simple Dijkstra for this fixed graph
-            graph = {n['name']: {} for n in nodes}
-            for l in links:
-                graph[l['source']][l['target']] = l['weight']
+        def solve_cpm():
+            # Forward Pass: ES (Earliest Start)
+            es = {n['name']: 0 for n in nodes}
+            for n_name in ['A', 'B', 'C', 'D', 'E', 'F']:
+                incoming = [l for l in links if l['target'] == n_name]
+                if incoming:
+                    es[n_name] = max(es[l['source']] + l['weight'] for l in incoming)
             
-            # Dijkstra
-            unvisited = {n['name']: float('inf') for n in nodes}
-            unvisited['A'] = 0
-            visited = {}
-            predecessors = {}
+            # Backward Pass: LS (Latest Start)
+            duration = es['F']
+            ls = {n['name']: duration for n in nodes}
+            for n_name in reversed(['A', 'B', 'C', 'D', 'E', 'F']):
+                outgoing = [l for l in links if l['source'] == n_name]
+                if outgoing:
+                    ls[n_name] = min(ls[l['target']] - l['weight'] for l in outgoing)
             
-            while unvisited:
-                current = min(unvisited, key=unvisited.get)
-                dist = unvisited[current]
-                for neighbor, weight in graph[current].items():
-                    if neighbor in visited: continue
-                    new_dist = dist + weight
-                    if new_dist < unvisited[neighbor]:
-                        unvisited[neighbor] = new_dist
-                        predecessors[neighbor] = current
-                visited[current] = unvisited.pop(current)
+            slack = {name: ls[name] - es[name] for name in es}
             
-            # Reconstruct path A -> F
-            path = []
-            curr = 'F'
-            while curr in predecessors:
-                path.append((predecessors[curr], curr))
-                curr = predecessors[curr]
-            
-            # Highlight edges in chart
             new_links = []
             for l in links:
-                highlight = (l['source'], l['target']) in path
+                is_critical = (slack[l['source']] == 0 and slack[l['target']] == 0 and 
+                              es[l['target']] - es[l['source']] == l['weight'])
                 new_links.append({
                     'source': l['source'],
                     'target': l['target'],
                     'weight': l['weight'],
-                    'lineStyle': {'color': '#ef4444' if highlight else '#ccc', 'width': 4 if highlight else 2}
+                    'lineStyle': {'color': '#ef4444' if is_critical else '#ccc', 'width': 4 if is_critical else 2}
                 })
             
             chart.options['series'][0]['links'] = new_links
             chart.update()
-            res_label.text = f'Shortest Path Found: A → ... → F | Total Cost = {visited["F"]}'
+            res_label.text = f'Project Duration: {duration} | Critical Path Highlighted in Red'
+            ui.notify(f"Node Info (ES/LS/Slack): " + ", ".join([f"{k}: {es[k]}/{ls[k]}/{slack[k]}" for k in es]))
 
-        ui.button('Find Shortest Path', icon='route', on_click=solve).classes('w-full q-mt-md')
+        ui.button('Run CPM Analysis', icon='alt_route', on_click=solve_cpm).classes('w-full q-mt-md')
         res_label = ui.label('').classes('text-center w-full font-bold text-red-600 q-mt-md')
+
+def simplex_tableau_tool():
+    with ui.card().classes('w-full p-6 shadow-lg'):
+        ui.label('Simplex Tableau Visualizer').classes('text-h5 q-mb-md')
+        ui.markdown('''
+        The Simplex algorithm moves between corner points. This tool shows the tableau for: 
+        **Max Z = 3x1 + 5x2** subject to **x1 + x2 ≤ 50** and **2x1 + x2 ≤ 80**.
+        ''')
+        
+        with ui.row().classes('w-full justify-center'):
+            step = ui.number('Simplex Step', value=0, min=0, max=2, precision=0).classes('w-32')
+            ui.label('Change step to see pivoting iterations').classes('text-gray-500 self-center')
+        
+        @ui.refreshable
+        def show_tableau():
+            s = int(step.value)
+            columns = [{'name': c, 'label': c, 'field': c} for c in ['Basis', 'x1', 'x2', 's1', 's2', 'RHS']]
+            if s == 0:
+                rows = [
+                    {'Basis': 's1', 'x1': 1, 'x2': 1, 's1': 1, 's2': 0, 'RHS': 50},
+                    {'Basis': 's2', 'x1': 2, 'x2': 1, 's1': 0, 's2': 1, 'RHS': 80},
+                    {'Basis': 'Z', 'x1': -3, 'x2': -5, 's1': 0, 's2': 0, 'RHS': 0}
+                ]
+            elif s == 1:
+                rows = [
+                    {'Basis': 'x2', 'x1': 1, 'x2': 1, 's1': 1, 's2': 0, 'RHS': 50},
+                    {'Basis': 's2', 'x1': 1, 'x2': 0, 's1': -1, 's2': 1, 'RHS': 30},
+                    {'Basis': 'Z', 'x1': 2, 'x2': 0, 's1': 5, 's2': 0, 'RHS': 250}
+                ]
+            else:
+                rows = [
+                    {'Basis': 'x2', 'x1': 0, 'x2': 1, 's1': 2, 's2': -1, 'RHS': 20},
+                    {'Basis': 'x1', 'x1': 1, 'x2': 0, 's1': -1, 's2': 1, 'RHS': 30},
+                    {'Basis': 'Z', 'x1': 0, 'x2': 0, 's1': 7, 's2': -2, 'RHS': 190}
+                ]
+            ui.table(columns=columns, rows=rows).classes('w-full')
+
+        show_tableau()
+        step.on('update:model-value', show_tableau.refresh)

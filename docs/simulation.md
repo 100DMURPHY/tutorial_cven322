@@ -1,6 +1,6 @@
 # Systems & Simulation
 
-Moving from deterministic models to **Stochastic** models to account for real-world uncertainty.
+Moving from deterministic models to **Stochastic** models to account for real-world uncertainty. This module focuses on **Systems Thinking**—understanding how small changes in inputs can lead to large, probabilistic variations in outcomes.
 
 ## 1. Monte Carlo Simulation
 Instead of using an "average" value, we sample from probability distributions.
